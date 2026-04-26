@@ -1,0 +1,40 @@
+# ============================================================
+#  Wrangler config — DSA CodeShare
+#  Docs: https://developers.cloudflare.com/workers/wrangler/
+# ============================================================
+
+name               = "codeshare"
+main               = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# ─── KV Namespace ───────────────────────────────────────────
+# Step 1: Create the namespace via CLI:
+#   npx wrangler kv:namespace create SNIPPETS
+# Step 2: Copy the printed `id` below.
+# Step 3: For local dev, also create a preview namespace:
+#   npx wrangler kv:namespace create SNIPPETS --preview
+#   Copy the preview_id below.
+
+[[kv_namespaces]]
+binding    = "SNIPPETS"
+id         = "11731fbab78948d8a1606db750415240"
+preview_id = "2da7989403fa48cb8e7cbb9e186ddd64"
+
+# ─── Environment variables ──────────────────────────────────
+[vars]
+ENVIRONMENT = "production"
+SITE_DOMAIN  = "code.dhirajbalakrishnan.dev"
+ROOT_DOMAIN  = "dhirajbalakrishnan.dev"
+
+# ─── Custom domain ──────────────────────────────────────────
+# Uncomment AFTER you:
+#   1. Run `npx wrangler deploy` once (creates the worker)
+#   2. Add a CNAME record in Cloudflare DNS:
+#        Name:    code
+#        Target:  codeshare.YOUR_ACCOUNT.workers.dev
+#        Proxied: YES (orange cloud)
+#   3. Then uncomment the block below and deploy again.
+#
+[[routes]]
+pattern   = "code.dhirajbalakrishnan.dev/*"
+zone_name = "dhirajbalakrishnan.dev"
